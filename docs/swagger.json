@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "Local server"
+      "url": "https://be-drain-streak.onrender.com",
+      "description": "Production server"
     }
   ],
   "components": {
