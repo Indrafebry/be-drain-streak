@@ -12,6 +12,9 @@ const statsRoutes = require('./routes/statsRoutes');
 
 const app = express();
 
+// Fix untuk Render.com (reverse proxy) agar express-rate-limit bekerja dengan baik
+app.set('trust proxy', 1);
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
