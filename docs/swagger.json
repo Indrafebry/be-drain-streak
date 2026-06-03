@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DrainStreak API",
+    "version": "1.0.0",
+    "description": "API documentation for DrainStreak backend MVP"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "name": { "type": "string" },
+                  "timezone": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User registered successfully" }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login successful" }
+        }
+      }
+    },
+    "/api/v1/transactions": {
+      "post": {
+        "summary": "Create a transaction",
+        "tags": ["Transactions"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "number" },
+                  "type": { "type": "string", "enum": ["income", "expense"] },
+                  "category_id": { "type": "string" },
+                  "note": { "type": "string" },
+                  "date": { "type": "string", "format": "date" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Transaction saved successfully" }
+        }
+      }
+    },
+    "/api/v1/store/buy": {
+      "post": {
+        "summary": "Buy item from store (e.g. freeze)",
+        "tags": ["Store"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item_type": { "type": "string", "example": "freeze" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Item purchased successfully" }
+        }
+      }
+    },
+    "/api/v1/stats/profile": {
+      "get": {
+        "summary": "Get user gamification profile",
+        "tags": ["Stats"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Profile data retrieved" }
+        }
+      }
+    },
+    "/api/v1/simulation/midnight-check": {
+      "post": {
+        "summary": "Simulate midnight cron job for streak reset",
+        "tags": ["Simulation"],
+        "responses": {
+          "200": { "description": "Midnight check completed" }
+        }
+      }
+    }
+  }
+}
